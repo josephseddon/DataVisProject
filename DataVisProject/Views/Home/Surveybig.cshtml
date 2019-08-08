@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Survey Data";
 }
 <body>
 
@@ -35,14 +35,14 @@
 <script>
 
     var margin = { top: 0, right: 120, bottom: 50, left: 0 },
-        width = 960 - margin.left - margin.right,
+        width = 900 - margin.left - margin.right,
         height = 600 - margin.top - margin.bottom;
-        
+
 
     var chart = d3.parsets()
         .width(height)
         .height(width)
-        .dimensions(["Survived", "Sex", "Age", "Class"])
+        .dimensions(["Since_message", "Support_free_knowledge"])
         .tension(.5);
 
     var svg = d3.select("#vis").append("svg")
@@ -51,7 +51,7 @@
         .append("g")
         .attr("transform", "translate(0," + height + ")rotate(-90)");
 
-    d3.csv("titanic.csv", function (error, csv) {
+    d3.csv("https://localhost:44318/5k_allcol_filter.csv", function (error, csv) {
         svg.datum(csv).call(chart);
         svg.selectAll(".category text")
             .attr("dx", 5)
@@ -70,3 +70,4 @@
     });
 
 </script>
+<div class="parsets tooltip"></div>

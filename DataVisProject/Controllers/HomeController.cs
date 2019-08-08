@@ -22,6 +22,20 @@ namespace DataVisProject.Controllers
             return View();
         }
 
+        public IActionResult Survey()
+        {
+            ViewData["Message"] = "Survey page";
+
+            return View();
+        }
+
+        public IActionResult Surveybig()
+        {
+            ViewData["Message"] = "Survey page";
+
+            return View();
+        }
+
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";

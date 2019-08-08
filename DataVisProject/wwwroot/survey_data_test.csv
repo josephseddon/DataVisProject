@@ -1,0 +1,96 @@
+Source,Device,Country,Prior
+Banner,A desktop or laptop computer,Australia,Yes,11
+Banner,A desktop or laptop computer,Australia,No,5
+Banner,A desktop or laptop computer,Canada,Yes,36
+Banner,A desktop or laptop computer,Canada,No,22
+Banner,A desktop or laptop computer,Great Britain,Yes,80
+Banner,A desktop or laptop computer,Great Britain,No,37
+Banner,A desktop or laptop computer,Ireland,Yes,7
+Banner,A desktop or laptop computer,Ireland,No,7
+Banner,A desktop or laptop computer,New Zealand,Yes,2
+Banner,A desktop or laptop computer,United States,No,140
+Banner,A desktop or laptop computer,United States,Yes,242
+Banner,A phone,Australia,No,7
+Banner,A phone,Australia,Yes,4
+Banner,A phone,Canada,Yes,3
+Banner,A phone,Canada,No,6
+Banner,A phone,Great Britain,No,21
+Banner,A phone,Great Britain,Yes,24
+Banner,A phone,Ireland,No,2
+Banner,A phone,Ireland,Yes,2
+Banner,A phone,New Zealand,No,1
+Banner,A phone,United States,No,70
+Banner,A phone,United States,Yes,79
+Banner,A tablet,Australia,No,1
+Banner,A tablet,Australia,Yes,1
+Banner,A tablet,Canada,Yes,2
+Banner,A tablet,Canada,No,2
+Banner,A tablet,Great Britain,Yes,11
+Banner,A tablet,Great Britain,No,10
+Banner,A tablet,Ireland,No,2
+Banner,A tablet,United States,Yes,34
+Banner,A tablet,United States,No,13
+BannerSidebar,A desktop or laptop computer,Canada,No,1
+BannerSidebar,A desktop or laptop computer,Great Britain,No,1
+BannerSidebar,A desktop or laptop computer,Great Britain,Yes,1
+BannerSidebar,A desktop or laptop computer,United States,Yes,5
+BannerSidebar,A desktop or laptop computer,United States,No,4
+BannerSidebar,A phone,Canada,No,2
+Email,A desktop or laptop computer,Australia,Yes,649
+Email,A desktop or laptop computer,Australia,No,2
+Email,A desktop or laptop computer,Canada,Yes,453
+Email,A desktop or laptop computer,Canada,No,1
+Email,A desktop or laptop computer,Great Britain,Yes,8
+Email,A desktop or laptop computer,Great Britain,No,3
+Email,A desktop or laptop computer,Ireland,Yes,16
+Email,A desktop or laptop computer,New Zealand,Yes,20
+Email,A desktop or laptop computer,United States,No,4
+Email,A desktop or laptop computer,United States,Yes,1700
+Email,A phone,Australia,Yes,133
+Email,A phone,Canada,Yes,123
+Email,A phone,Great Britain,Yes,3
+Email,A phone,Great Britain,No,1
+Email,A phone,Ireland,Yes,8
+Email,A phone,New Zealand,Yes,3
+Email,A phone,United States,Yes,525
+Email,A phone,United States,No,6
+Email,A tablet,Australia,Yes,90
+Email,A tablet,Canada,Yes,66
+Email,A tablet,Great Britain,Yes,3
+Email,A tablet,Great Britain,No,2
+Email,A tablet,Ireland,No,1
+Email,A tablet,Ireland,Yes,6
+Email,A tablet,New Zealand,Yes,1
+Email,A tablet,United States,Yes,178
+Email,A tablet,United States,No,2
+EmailBanner,A desktop or laptop computer,Australia,Yes,1
+EmailBanner,A desktop or laptop computer,Canada,Yes,2
+EmailBanner,A desktop or laptop computer,Great Britain,No,1
+EmailBanner,A desktop or laptop computer,United States,Yes,8
+EmailBanner,A phone,United States,Yes,3
+EmailBannerSidebar,A desktop or laptop computer,United States,Yes,1
+EmailSidebar,A desktop or laptop computer,Australia,Yes,2
+EmailSidebar,A desktop or laptop computer,Canada,Yes,2
+EmailSidebar,A desktop or laptop computer,United States,Yes,4
+EmailSocial,A desktop or laptop computer,United States,Yes,1
+Sidebar,A desktop or laptop computer,Australia,No,1
+Sidebar,A desktop or laptop computer,Australia,Yes,4
+Sidebar,A desktop or laptop computer,Canada,Yes,6
+Sidebar,A desktop or laptop computer,Canada,No,2
+Sidebar,A desktop or laptop computer,Great Britain,No,3
+Sidebar,A desktop or laptop computer,Great Britain,Yes,3
+Sidebar,A desktop or laptop computer,Ireland,Yes,1
+Sidebar,A desktop or laptop computer,United States,Yes,28
+Sidebar,A desktop or laptop computer,United States,No,6
+Sidebar,A phone,Australia,No,1
+Sidebar,A phone,Canada,Yes,2
+Sidebar,A phone,Ireland,No,1
+Sidebar,A phone,United States,No,3
+Sidebar,A tablet,Australia,Yes,1
+Social,A desktop or laptop computer,Great Britain,Yes,1
+Social,A desktop or laptop computer,United States,No,3
+Social,A desktop or laptop computer,United States,Yes,4
+Social,A phone,Australia,Yes,2
+Social,A phone,United States,No,3
+Social,A phone,United States,Yes,2
+Social,A tablet,United States,Yes,2
