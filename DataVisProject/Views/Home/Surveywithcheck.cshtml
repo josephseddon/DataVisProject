@@ -1,0 +1,160 @@
+﻿@{
+    ViewData["Title"] = "Survey Data";
+}
+
+<div class="widget">
+    <h2>Checkbox</h2>
+
+Donate_other_charities,Trust_in_article,Mobile_purchases,Age,Gender,Legacy
+    <fieldset>
+        <legend>Hotel Ratings: </legend>
+        <ul>
+            <li>
+                <label for="Source">Donation Source</label>
+                <input type="checkbox" name="qselector" id="Source" value="Source">
+            </li>
+            <li>
+                <label for="Device">Donor Device</label>
+                <input type="checkbox" name="qselector" id="Device" value="Device">
+            </li>
+            <li>
+                <label for="Country">Donor Country</label>
+                <input type="checkbox" name="qselector" id="Country" value="Country">
+            </li>
+            <li>
+                <label for="PreviousDonor">Previously donated</label>
+                <input type="checkbox" name="qselector" id="PreviousDonor" value="PreviousDonor">
+            </li>
+            <li>
+                <label for="Wikipedia_use">How frequently do you use WP?</label>
+                <input type="checkbox" name="qselector" id="Wikipedia_use" value="Wikipedia_use">
+            </li>
+            <li>
+                <label for="Regular_user">Are you a Wikipedia user?</label>
+                <input type="checkbox" name="qselector" id="Regular_user" value="Regular_user">
+            </li>
+            <li>
+                <label for="Rely_on_Wikipedia">Do you rely on Wikipedia?</label>
+                <input type="checkbox" name="qselector" id="Rely_on_Wikipedia" value="Rely_on_Wikipedia">
+            </li>
+            <li>
+                <label for="Since_message">When did you last see a banner?</label>
+                <input type="checkbox" name="qselector" id="Since_message" value="Since_message">
+            </li>
+            <li>
+                <label for="Support_free_knowledge">Do you support free knowledge?</label>
+                <input type="checkbox" name="qselector" id="Support_free_knowledge" value=>
+            </li>
+        </ul>
+    </fieldset>
+</div><div style="border:solid 5px black;" id="generate">Generate</div>
+<body>
+
+    <div id="vis"></div>
+</body>
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+<script src="~/js/d3.min.js"></script>
+<script src="~/js/d3.parsets.js"></script>
+<script src="~/js/highlight.js"></script>
+<link href="~/css/d3.parsets.css" rel="stylesheet" />
+<script>
+    d3.rebind = function (target, source) {
+        var i = 1, n = arguments.length, method;
+        while (++i < n) target[method = arguments[i]] = d3_rebind(target, source, source[method]);
+        return target;
+    };
+
+    // Method is assumed to be a standard D3 getter-setter:
+    // If passed with no arguments, gets the value.
+    // If passed with arguments, sets the value and returns the target.
+    function d3_rebind(target, source, method) {
+        return function () {
+            var value = method.apply(source, arguments);
+            return value === source ? target : value;
+        };
+    }
+
+    d3.functor = function functor(v) {
+        return typeof v === "function" ? v : function () {
+            return v;
+        };
+    };
+</script>
+<script>
+    var qselectorarray;
+
+    function qselector() {
+        qselectorarray = [];
+        console.log("qselectorarray reset");
+        $("input:checkbox[name=qselector]:checked").each(function () {
+            qselectorarray.push($(this).val());
+            console.log("qselectorarray array added")
+        });
+        generatechart();
+    }
+
+    function generatechart() {
+        $("#vis").empty()
+
+        var margin = { top: 0, right: 120, bottom: 50, left: 0 },
+            width = 900 - margin.left - margin.right,
+            height = 600 - margin.top - margin.bottom;
+
+        if (qselectorarray === undefined || qselectorarray.length == 0) {
+            qselectorarray = ["Source","Device"]
+        }
+
+        var chart = d3.parsets()
+            .width(height)
+            .height(width)
+            .dimensions(qselectorarray)
+            .tension(.5);
+
+        var svg = d3.select("#vis").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(0," + height + ")rotate(-90)");
+
+        d3.csv("https://localhost:44318/5k_allcol_filter.csv", function (error, csv) {
+            svg.datum(csv).call(chart);
+            svg.selectAll(".category text")
+                .attr("dx", 5)
+                .attr("transform", "rotate(90)");
+            svg.selectAll(".category rect")
+                .attr("y", 0);
+            svg.selectAll("text.dimension")
+                .attr("dy", "1.5em")
+                .attr("transform", "rotate(90)");
+            svg.selectAll("text.dimension .sort.alpha")
+                .attr("x", 0)
+                .attr("dx", 0)
+                .attr("dy", "1.5em");
+            svg.selectAll("text.dimension .sort.size")
+                .attr("dx", "1em");
+        });
+    };
+
+    $("input[name=qselector]").change(qselector);
+    $("#generate").click(generatechart);
+
+    
+</script>
+
+<style>
+    fieldset {
+        flex-wrap: wrap;
+        display: flex;
+    }
+
+        fieldset checkbox {
+            flex: 1 0 25%;
+        }
+</style>
+
+<div class="parsets tooltip"></div>

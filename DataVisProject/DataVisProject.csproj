@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\Home\Survey-withcheck.cshtml">
+    <Content Update="Views\Home\Surveywithcheck.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Home\Surveybig.cshtml">
