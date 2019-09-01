@@ -2,46 +2,58 @@
     ViewData["Title"] = "Survey Data";
 }
 
+<section>
+
+    <ul class="list-group list-group-sortable">
+
+        <li class="list-group-item" draggable="true">Cras justo odio</li>
+        <li class="list-group-item" draggable="true">Dapibus ac facilisis in</li>
+        <li class="list-group-item" draggable="true">Morbi leo risus</li>
+        <li class="list-group-item" draggable="true">Porta ac consectetur ac</li>
+        <li class="list-group-item" draggable="true">Vestibulum at eros</li>
+    </ul>
+</section>
+
 <div class="widget">
     <h2>Checkbox</h2>
 
 Donate_other_charities,Trust_in_article,Mobile_purchases,Age,Gender,Legacy
     <fieldset>
         <legend>Hotel Ratings: </legend>
-        <ul>
-            <li>
+        <ul class="list-group list-group-sortable">
+            <li class="list-group-item" draggable="true">
                 <label for="Source">Donation Source</label>
                 <input type="checkbox" name="qselector" id="Source" value="Source">
             </li>
-            <li>
+            <li class="list-group-item" draggable="true">
                 <label for="Device">Donor Device</label>
                 <input type="checkbox" name="qselector" id="Device" value="Device">
             </li>
-            <li>
+            <li class="list-group-item" draggable="true">
                 <label for="Country">Donor Country</label>
                 <input type="checkbox" name="qselector" id="Country" value="Country">
             </li>
-            <li>
+            <li class="list-group-item" draggable="true">
                 <label for="PreviousDonor">Previously donated</label>
                 <input type="checkbox" name="qselector" id="PreviousDonor" value="PreviousDonor">
             </li>
-            <li>
+            <li class="list-group-item" draggable="true">
                 <label for="Wikipedia_use">How frequently do you use WP?</label>
                 <input type="checkbox" name="qselector" id="Wikipedia_use" value="Wikipedia_use">
             </li>
-            <li>
+            <li class="list-group-item" draggable="true">
                 <label for="Regular_user">Are you a Wikipedia user?</label>
                 <input type="checkbox" name="qselector" id="Regular_user" value="Regular_user">
             </li>
-            <li>
+            <li class="list-group-item" draggable="true">
                 <label for="Rely_on_Wikipedia">Do you rely on Wikipedia?</label>
                 <input type="checkbox" name="qselector" id="Rely_on_Wikipedia" value="Rely_on_Wikipedia">
             </li>
-            <li>
+            <li class="list-group-item" draggable="true">
                 <label for="Since_message">When did you last see a banner?</label>
                 <input type="checkbox" name="qselector" id="Since_message" value="Since_message">
             </li>
-            <li>
+            <li class="list-group-item" draggable="true">
                 <label for="Support_free_knowledge">Do you support free knowledge?</label>
                 <input type="checkbox" name="qselector" id="Support_free_knowledge" value=>
             </li>
@@ -56,7 +68,7 @@ Donate_other_charities,Trust_in_article,Mobile_purchases,Age,Gender,Legacy
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+<script src="~/js/jquery.sortable.js"></script>
 
 <script src="~/js/d3.min.js"></script>
 <script src="~/js/d3.parsets.js"></script>
@@ -141,20 +153,18 @@ Donate_other_charities,Trust_in_article,Mobile_purchases,Age,Gender,Legacy
     };
 
     $("input[name=qselector]").change(qselector);
-    $("#generate").click(generatechart);
+    $("#generate").click(qselector);
+    $('.list-group-sortable').sortable({
+        placeholderClass: 'list-group-item'
+    });
+    $('.list-group-sortable').sortable().on("sortupdate", function (e, ui) {
+        qselector();
+    });
 
     
 </script>
 
 <style>
-    fieldset {
-        flex-wrap: wrap;
-        display: flex;
-    }
-
-        fieldset checkbox {
-            flex: 1 0 25%;
-        }
 </style>
 
 <div class="parsets tooltip"></div>
