@@ -15,6 +15,7 @@ namespace DataVisProject.Controllers
             return View();
         }
 
+
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
@@ -39,6 +40,13 @@ namespace DataVisProject.Controllers
         public IActionResult Surveywithcheck()
         {
             ViewData["Message"] = "Survey page";
+
+            return View();
+        }
+
+        public IActionResult Surveybasicfilter()
+        {
+            ViewData["Message"] = "Survey with basic filter";
 
             return View();
         }

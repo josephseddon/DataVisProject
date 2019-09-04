@@ -13,6 +13,10 @@
 </style>
 <div class="widget">
     <fieldset>
+        <legend>Filters</legend>
+        <ul class="list-group list-group-sortable csvcolumn-list"></ul>
+    </fieldset>
+    <fieldset>
         <legend>Hotel Ratings: </legend>
         <ul class="list-group list-group-sortable csvcolumn-list"></ul>
     </fieldset>
@@ -26,6 +30,7 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="~/js/d3.min.js"></script>
+<script src="https://d3js.org/d3-array.v2.min.js"></script>
 <script src="~/js/d3.parsets.js"></script>
 <script src="~/js/highlight.js"></script>
 <script src="~/js/jquery.sortable.js"></script>
@@ -34,14 +39,11 @@
 <script>
     var datacolumns;
     var i;
-    d3.csv('https://localhost:44318/5k_allcol_filter.csv', function (error, data) {
+    d3.csv('https://localhost:44318/All_data_with_dates_and_filtered.csv', function (error, data) {
         datacolumns = d3.keys(data[0]);
-        console.log(datacolumns)
-        console.log('The length of datacolumns is: ' + datacolumns.length)
-
         datacolumnssize = datacolumns.length;
 
-        for (i = 0; i < datacolumnssize; i++) {
+        for (i = 2; i < datacolumnssize; i++) {
 
             $(".csvcolumn-list").append('<li class="list-group-item" draggable="true"> <label for= "Source">' + datacolumns[i] + '</label ><input type="checkbox" name="qselector" id="check-' + datacolumns[i] + '" value="' + datacolumns[i] + '"></li>');
         }
@@ -49,6 +51,8 @@
         $('.list-group-sortable').sortable({
             placeholderClass: 'list-group-item'
         });
+
+        console.log(d3.rollup(data, v => v.length, d => d.Submitted));
     });
 </script>
 
@@ -111,7 +115,7 @@
             .append("g")
             .attr("transform", "translate(0," + height + ")rotate(-90)");
 
-        d3.csv("https://localhost:44318/5k_allcol_filter.csv", function (error, csv) {
+        d3.csv("https://localhost:44318/All_data_with_dates_and_filtered.csv", function (error, csv) {
             svg.datum(csv).call(chart);
             svg.selectAll(".category text")
                 .attr("dx", 5)
