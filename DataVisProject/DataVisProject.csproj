@@ -16,6 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Home\Surveybasicfilterdropdown.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Home\Surveywithcheck.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

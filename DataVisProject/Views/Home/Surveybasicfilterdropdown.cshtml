@@ -1,0 +1,244 @@
+﻿@{
+    ViewData["Title"] = "Survey Data";
+}
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link href="~/css/d3.parsets.css" rel="stylesheet" />
+<link href="~/lib/UI-Dropdown-master/dropdown.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+
+<style>
+    .csvcolumn-list {
+        -webkit-column-count: 3;
+        -moz-column-count: 3;
+        column-count: 3;
+    }
+
+        .csvcolumn-list li {
+            flex: 1 0 25%;
+        }
+</style>
+<div class="widget">
+    <div class="filter-container"></div>
+    <fieldset>
+        <legend>Country-Filters</legend>
+        <ul class="filter-list"></ul>
+    </fieldset>
+    <fieldset>
+        <legend>Hotel Ratings: </legend>
+        <ul class="list-group list-group-sortable csvcolumn-list"></ul>
+    </fieldset>
+</div><div style="border:solid 5px black;" id="generate">Generate</div>
+<body>
+
+    <div id="vis"></div>
+</body>
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="~/js/d3.min.js"></script>
+<script src="https://d3js.org/d3-array.v2.min.js"></script>
+<script src="~/js/d3.parsets.js"></script>
+<script src="~/js/highlight.js"></script>
+<script src="~/js/jquery.sortable.js"></script>
+<script src="~/lib/UI-Dropdown-master/dropdown.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+<script>
+    var datacolumns;
+    var i;
+    var datasummary = [];
+
+    function column(a,b) {
+        this.title = a;
+        this.values = b;
+    }
+
+
+    d3.csv('https://localhost:44318/All_data_with_dates_and_filtered.csv', function (error, csv) {
+        datacolumns = d3.keys(csv[0]);
+        datacolumnssize = datacolumns.length;
+
+        for (i = 0; i < datacolumns.length; i++) {
+            var title = datacolumns[i];
+            var data = d3.map(csv, function (d) {
+                return d[title];
+            }).keys();
+            datasummary[0] = column(datacolumns[i],)
+        }
+
+        var collator = new Intl.Collator(undefined, {
+            numeric: true,
+            sensitivity: 'base'
+        });
+
+        for (i = 2; i < datacolumnssize; i++) {
+
+            $(".csvcolumn-list").append('<li class="list-group-item" draggable="true"> <label for= "Source">' + datacolumns[i] + '</label ><input type="checkbox" name="qselector" id="check-' + datacolumns[i] + '" value="' + datacolumns[i] + '"></li>');
+        }
+
+        $('.list-group-sortable').sortable({
+            placeholderClass: 'list-group-item'
+        });
+
+        var filter_on = 'Country';
+
+        var filter_list = d3.map(csv, function (d) {
+            return d[filter_on];
+        }).keys();
+
+        filter_list.sort(collator.compare);
+
+        console.log(filter_list);
+        filterlength = filter_list.length;
+
+        for (i = 0; i < filter_list.length; i++) {
+            console.log(i);
+            $(".filter-list").append('<li class=""> <label for= "Source">' + filter_list[i] + '</label ><input type="checkbox" name="qfilter" class="filter-check" id="' + filter_list[i] + '" value="' + filter_list[i] + '"></li>');
+        }
+
+        arrayvalues = [];
+        arrayvalues[0]=
+
+
+        for (i = 0; i < 1; i++) {
+
+            $(".filter-container").append('<select class="js-example-basic-multiple Country-filter" multiple=""></select>');
+            $("." + filter_on + "-filter").append('<option value="">' + filter_on + '</option>');
+
+            for (j = 0; j < filter_list.length; j++) {
+                $("." + filter_on + "-filter").append('<option value="' + filter_list[j] + '">' + filter_list[j] + '</option>');
+            }
+
+            $('.js-example-basic-multiple').select2({
+                placeholder: "Select a county",
+                tags: true
+            });
+
+        }
+
+        var filter_id = '.' + filter_on + '-filter';
+        console.log(filter_id);
+    });
+</script>
+
+<script>
+    d3.rebind = function (target, source) {
+        var i = 1, n = arguments.length, method;
+        while (++i < n) target[method = arguments[i]] = d3_rebind(target, source, source[method]);
+        return target;
+    };
+
+    function d3_rebind(target, source, method) {
+        return function () {
+            var value = method.apply(source, arguments);
+            return value === source ? target : value;
+        };
+    }
+
+    d3.functor = function functor(v) {
+        return typeof v === "function" ? v : function () {
+            return v;
+        };
+    };
+</script>
+<script>
+    var qselectorarray;
+
+    function qselector() {
+        qselectorarray = [];
+        console.log("qselectorarray reset");
+        $("input:checkbox[name=qselector]:checked").each(function () {
+            qselectorarray.push($(this).val());
+            console.log("qselectorarray array added")
+        });
+        generatechart();
+    }
+
+    
+
+    function generatechart() {
+        $("#vis").empty()
+
+        var margin = { top: 0, right: 120, bottom: 50, left: 0 },
+            width = 900 - margin.left - margin.right,
+            height = 600 - margin.top - margin.bottom;
+
+        if (qselectorarray === undefined || qselectorarray.length == 0) {
+            qselectorarray = ["Source", "Device"]
+        }
+
+        var chart = d3.parsets()
+            .width(height)
+            .height(width)
+            .dimensions(qselectorarray)
+            .tension(.5);
+
+        var collator = new Intl.Collator(undefined, {
+            numeric: true,
+            sensitivity: 'base'
+        });
+
+        var svg = d3.select("#vis").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(0," + height + ")rotate(-90)");
+
+        d3.csv("https://localhost:44318/All_data_with_dates_and_filtered.csv", function (error, csv) {
+            var choices = [];
+
+            var filter_on = 'Country';
+
+            console.log(choices);
+
+            var checkboxes = document.querySelectorAll('input[name=qfilter]:checked');
+
+            console.log(checkboxes);
+
+            for (var i = 0; i < checkboxes.length; i++) {
+                choices.push(checkboxes[i].value);
+            }
+            console.log(choices);
+            console.log('choices length is ' + choices.length);
+            // feeding data filtered from choices array
+
+            if (choices.length > 0) {
+                var data = csv.filter(function (d, i) { return choices.indexOf(d[filter_on]) >= 0 })
+            } else {
+                data = csv; // so that no boxes checked shows all data
+            }
+
+            svg.datum(data).call(chart);
+            svg.selectAll(".category text")
+                .attr("dx", 5)
+                .attr("transform", "rotate(90)");
+            svg.selectAll(".category rect")
+                .attr("y", 0);
+            svg.selectAll("text.dimension")
+                .attr("dy", "1.5em")
+                .attr("transform", "rotate(90)");
+            svg.selectAll("text.dimension .sort.alpha")
+                .attr("x", 0)
+                .attr("dx", 0)
+                .attr("dy", "1.5em");
+            svg.selectAll("text.dimension .sort.size")
+                .attr("dx", "1em");
+        });
+    };
+
+    $("input[name=qselector]").change(qselector);
+    $("#generate").click(qselector);
+    $('.list-group-sortable').sortable({
+        placeholderClass: 'list-group-item'
+    });
+    $('.list-group-sortable').sortable().on("sortupdate", function (e, ui) {
+        qselector();
+    });
+
+
+</script>
+
+<style>
+</style>
+
+<div class="parsets tooltip"></div>

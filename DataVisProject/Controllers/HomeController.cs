@@ -51,6 +51,13 @@ namespace DataVisProject.Controllers
             return View();
         }
 
+        public IActionResult Surveybasicfilterdropdown()
+        {
+            ViewData["Message"] = "Survey with basic filter";
+
+            return View();
+        }
+
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
