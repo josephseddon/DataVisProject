@@ -39,7 +39,7 @@ namespace DataVisProject.Controllers
 
         public IActionResult Surveywithcheck()
         {
-            ViewData["Message"] = "Survey page";
+            ViewData["Message"] = "Survey page with selectable columns";
 
             return View();
         }
@@ -52,6 +52,20 @@ namespace DataVisProject.Controllers
         }
 
         public IActionResult Surveybasicfilterdropdown()
+        {
+            ViewData["Message"] = "Survey with basic filter and dropdown test";
+
+            return View();
+        }
+
+        public IActionResult Surveycomplexfilter()
+        {
+            ViewData["Message"] = "Survey with complex filter";
+
+            return View();
+        }
+
+        public IActionResult Sandbox()
         {
             ViewData["Message"] = "Survey with basic filter";
 

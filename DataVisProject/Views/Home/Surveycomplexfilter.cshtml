@@ -18,11 +18,8 @@
         }
 </style>
 <div class="widget">
+    <legend>Country-Filters</legend>
     <div class="filter-container"></div>
-    <fieldset>
-        <legend>Country-Filters</legend>
-        <ul class="filter-list"></ul>
-    </fieldset>
     <fieldset>
         <legend>Hotel Ratings: </legend>
         <ul class="list-group list-group-sortable csvcolumn-list"></ul>
@@ -58,13 +55,17 @@
         datacolumns = d3.keys(csv[0]);
         datacolumnssize = datacolumns.length;
 
-        for (i = 0; i < datacolumns.length; i++) {
-            var title = datacolumns[i];
-            var data = d3.map(csv, function (d) {
-                return d[title];
-            }).keys();
-            datasummary[0] = column(datacolumns[i],)
+        for (i = 2; i < datacolumns.length; i++) {
+            var columnname = datacolumns[i];
+            var columnuniques = d3.map(csv, function (d) { return d[datacolumns[i]]; }).keys();
+            console.log(columnname);
+            console.log(columnuniques);
+            var columnsummary = new column(columnname, columnuniques)
+            console.log(columnsummary);
+            datasummary.push(columnsummary);
         }
+        console.log('Data summary has ' + datasummary.length + ' objects');
+        console.log(datasummary);
 
         var collator = new Intl.Collator(undefined, {
             numeric: true,
@@ -96,28 +97,38 @@
             $(".filter-list").append('<li class=""> <label for= "Source">' + filter_list[i] + '</label ><input type="checkbox" name="qfilter" class="filter-check" id="' + filter_list[i] + '" value="' + filter_list[i] + '"></li>');
         }
 
-        arrayvalues = [];
-        arrayvalues[0]=
 
+        for (i = 0; i < datasummary.length; i++) {
 
-        for (i = 0; i < 1; i++) {
+            var filter_title = datasummary[i].title;
+            console.log('Beginning build of' + filter_title + ' filter');
+            var filter_uniques = datasummary[i].values;
 
-            $(".filter-container").append('<select class="js-example-basic-multiple Country-filter" multiple=""></select>');
-            $("." + filter_on + "-filter").append('<option value="">' + filter_on + '</option>');
+            $(".filter-container").append('<select class="js-example-basic-multiple ' + filter_title +'-filter" multiple=""></select>');
+            $("." + filter_title + "-filter").append('<option value="">' + filter_title + '</option>');
 
-            for (j = 0; j < filter_list.length; j++) {
-                $("." + filter_on + "-filter").append('<option value="' + filter_list[j] + '">' + filter_list[j] + '</option>');
+            for (j = 0; j < filter_uniques.length; j++) {
+                $("." + filter_title + "-filter").append('<option value="' + filter_uniques[j] + '">' + filter_uniques[j] + '</option>');
             }
-
-            $('.js-example-basic-multiple').select2({
-                placeholder: "Select a county",
+             
+            $('.'+ filter_title + "-filter").select2({
+                placeholder: filter_title,
                 tags: true
             });
 
         }
 
+
+        var filterarray = [];
         var filter_id = '.' + filter_on + '-filter';
-        console.log(filter_id);
+        $('.Country-filter').on('change.select2', function (e) {
+            filterarray = [];
+            $('.Country-filter').find(':selected').each(function () {
+                filterarray.push($(this).val());
+                console.log("qselectorarray array added")
+            });
+            console.log(filterarray)
+        });
     });
 </script>
 
@@ -141,8 +152,13 @@
         };
     };
 </script>
+
 <script>
+    var filter_on = 'Country';
+    var filter_id = '.' + filter_on + '-filter';
     var qselectorarray;
+    var filterarray;
+    var filtercount;
 
     function qselector() {
         qselectorarray = [];
@@ -154,6 +170,22 @@
         generatechart();
     }
 
+    function filterselect() {
+        filterarray = [];
+        filtercount = 0;
+        for (i = 0; i < datasummary.length; i++) {
+            var filterselected = [];
+            $('.' + datasummary[i].title + '-filter').find(':selected').each(function () {
+                filterselected.push($(this).val());
+                console.log(filterselected)
+                filtercount++;
+                console.log(filtercount)
+            });
+            if (filterselected.length > 0) { filterarray.push(new column(datasummary[i].title, filterselected)) }
+
+        }
+        console.log(filterarray)
+    }
 
 
     function generatechart() {
@@ -163,8 +195,8 @@
             width = 900 - margin.left - margin.right,
             height = 600 - margin.top - margin.bottom;
 
-        if (qselectorarray === undefined || qselectorarray.length == 0) {
-            qselectorarray = ["Source", "Device"]
+        if (qselectorarray === undefined || qselectorarray.length === 0) {
+            qselectorarray = ["Country", "Device_donated_on"]
         }
 
         var chart = d3.parsets()
@@ -184,28 +216,20 @@
             .append("g")
             .attr("transform", "translate(0," + height + ")rotate(-90)");
 
+
         d3.csv("https://localhost:44318/All_data_with_dates_and_filtered.csv", function (error, csv) {
-            var choices = [];
+            filterselect();
 
-            var filter_on = 'Country';
+            if (filtercount > 0) {
+                var data = csv;
 
-            console.log(choices);
-
-            var checkboxes = document.querySelectorAll('input[name=qfilter]:checked');
-
-            console.log(checkboxes);
-
-            for (var i = 0; i < checkboxes.length; i++) {
-                choices.push(checkboxes[i].value);
-            }
-            console.log(choices);
-            console.log('choices length is ' + choices.length);
-            // feeding data filtered from choices array
-
-            if (choices.length > 0) {
-                var data = csv.filter(function (d, i) { return choices.indexOf(d[filter_on]) >= 0 })
+                for (j = 0; j < filterarray.length; j++) {
+                    var t;
+                    t = data.filter(function (d, i) { return filterarray[j].values.indexOf(d[filterarray[j].title]) >= 0 });
+                    data = t;
+                }
             } else {
-                data = csv; // so that no boxes checked shows all data
+                    var data = csv; // so that no boxes checked shows all data
             }
 
             svg.datum(data).call(chart);
@@ -233,6 +257,11 @@
     });
     $('.list-group-sortable').sortable().on("sortupdate", function (e, ui) {
         qselector();
+    });
+
+    $(filter_id).on('change.select2', function (e) {
+        filterselect();
+        if (qselectorarray.length > 0) { generatechart(); }
     });
 
 

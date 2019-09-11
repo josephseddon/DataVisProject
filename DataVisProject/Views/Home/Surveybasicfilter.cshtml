@@ -75,6 +75,29 @@
             $(".filter-list").append('<li class=""> <label for= "Source">' + filter_list[i] + '</label ><input type="checkbox" name="qfilter" class="filter-check" id="' + filter_list[i] + '" value="' + filter_list[i] + '"></li>');
         }
 
+        arrayvalues = [];
+        arrayvalues[0] = ;
+
+
+        for (i = 0; i < 1; i++) {
+
+            $(".filter-container").append('<select class="js-example-basic-multiple Country-filter" multiple=""></select>');
+            $("." + filter_on + "-filter").append('<option value="">' + filter_on + '</option>');
+
+            for (j = 0; j < filter_list.length; j++) {
+                $("." + filter_on + "-filter").append('<option value="' + filter_list[j] + '">' + filter_list[j] + '</option>');
+            }
+
+            $('.js-example-basic-multiple').select2({
+                placeholder: "Select a county",
+                tags: true
+            });
+
+        }
+
+        var filter_id = '.' + filter_on + '-filter';
+        console.log(filter_id);
+
     });
 </script>
 
