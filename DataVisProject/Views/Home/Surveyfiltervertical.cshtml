@@ -16,208 +16,67 @@
         .csvcolumn-list li {
             flex: 1 0 25%;
         }
-
     .widget {
         content: "";
+        display: table;
         clear: both;
         width: 100%;
-        padding-top: 20px;
     }
-
-    #filter-container {
+    .filter-container {
+        float:left;
+        width:25%;
+    }
+    .select-container {
         float: left;
-        width: 25%;
+        width: 20%;
     }
-
-    #select-container {
-        float: right;
-        width: 25%;
-    }
-
-    #vis-container {
+    .vis-container {
         float: left;
-        width: 50%;
+        width: 55%;
     }
 
     #generate {
-        border: solid 2px;
+        border: solid 2px #36c;
         width: 200px;
-        background: #14866d;
+        background: #36c;
         font-weight: bold;
         color: #fff;
         height: 40px;
         border-radius: 4px;
         text-align: center;
         margin: 9px auto;
-        padding-top: 5px;
-        font-size: 18px;
+        padding-top: 9px;
     }
-
-        #generate:hover {
-            background-color: #25967D
-        }
 
     #vis svg {
         margin: auto;
         display: block;
     }
 
-    #vis {
-    padding-left: 25px;
-    }
-
-    .filter-label {
-        width: 100%;
-        padding: 5px;
-        margin-bottom: unset;
-        font-weight: unset;
-        cursor: pointer;
-    }
-
-    .filter-selected {
+    .filter-selected{
         background-color: #36c;
         color: #fff;
-        font-weight: bold;
     }
-
-    #filter-container .legend,
-    #select-container .legend {
-        font-family: montserrat;
-        color: white;
-        background: #666;
-        text-align: center;
-        height: 38px;
-        font-size: 20px;
-    }
-
-    #filter-container .legend {
-        border-radius: 0px 10px 10px 0px;
-    }
-
-    #select-container .legend {
-        border-radius: 10px 0px 0px 10px;
-    }
-
-    .filter-show {
-        display: none;
-    }
-
-    @@media screen and (max-width: 1000px) {
-        #filter-container,
-        #select-container {
-            float: unset;
-            width: 100%;
-            overflow: hidden;
-            height: 40px;
-        }
-
-            #filter-container .legend {
-                border-radius: unset;
-            }
-
-            #select-container .legend {
-                border-radius: unset;
-            }
-
-        #vis-container {
-            width: 100%;
-        }
-
-        .filter-show {
-            display:inline;
-        }
-
-        .visible,
-        .visible {
-            height: 100% !important;
-            overflow: visible !important;
-        }
-    }
-
-    /* The container */
-    .filter-label {
-        display: block;
-        position: relative;
-        padding: 10px;
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
-
-        /* Hide the browser's default checkbox */
-        .filter-label .filter-list-item {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-            height: 0;
-            width: 0;
-        }
-
-    /* Create a custom checkbox */
-    .checkmark {
-        position: absolute;
-        top: 5px;
-        right: 10px;
-        height: 25px;
-        width: 25px;
-        background-color: #fff;
-        border: solid 1px #ccc;
-    }
-
-    /* On mouse-over, add a grey background color */
-    .filter-label:hover .filter-list-item ~ .checkmark {
-        background-color: #ccc;
-    }
-
-    /* When the checkbox is checked, add a blue background */
-    .filter-label .filter-list-item:checked ~ .checkmark {
-        background-color: #fff;
-    }
-
-    /* Create the checkmark/indicator (hidden when not checked) */
-    .checkmark:after {
-        content: "";
-        position: absolute;
-        display: none;
-    }
-
-    /* Show the checkmark when checked */
-    .filter-label .filter-list-item:checked ~ .checkmark:after {
-        display: block;
-    }
-
-    /* Style the checkmark/indicator */
-    .filter-label .checkmark:after {
-        right: 9px;
-        top: 5px;
-        width: 5px;
-        height: 10px;
-        border: solid #36c;
-        border-width: 0 3px 3px 0;
-        -webkit-transform: rotate(45deg);
-        -ms-transform: rotate(45deg);
-        transform: rotate(45deg);
-    }
-
 </style>
 <div class="widget">
-    <div id="filter-container">
-        <div class="legend">Filters <div class="filter-show">[Show]</div></div>
+    <div class="filter-container">
+        <legend>Filters</legend>
     </div>
-    <div id="select-container">
-        <div class="legend">Display selection <div class="filter-show">[Show]</div></div>
+    <div class="vis-container">
+        <div id="generate">Generate chart</div>
+        <div>
+
+            <div id="vis"></div>
+        </div>
+    </div>
+    <div class="select-container">
         <fieldset>
+            <legend>Display selection</legend>
             <ul class="list-group list-group-sortable csvcolumn-list"></ul>
         </fieldset>
 
     </div>
-    <div id="vis-container">
-        <div id="generate">Generate chart</div>
-            <div id="vis"></div>
-    </div>
-</div>
+
 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -262,7 +121,7 @@
 
             for (i = 2; i < datacolumnssize; i++) {
 
-                $(".csvcolumn-list").append('<li class="list-group-item" draggable="true"> <label class="filter-label" for= "check-' + datacolumns[i] + '">' + datacolumns[i] + '<input class="filter-list-item" type="checkbox" name="qselector" id="check-' + datacolumns[i] + '" value="' + datacolumns[i] + '"><span class="checkmark"></span></label ></li>');
+                $(".csvcolumn-list").append('<li class="list-group-item" draggable="true"> <label class="" for= "check-' + datacolumns[i] + '">' + datacolumns[i] + '<input class="filter-list-item" type="checkbox" name="qselector" id="check-' + datacolumns[i] + '" value="' + datacolumns[i] + '"></label ></li>');
             }
 
             $('.list-group-sortable').sortable({
@@ -291,7 +150,7 @@
                 console.log('Beginning build of' + filter_title + ' filter');
                 var filter_uniques = datasummary[i].values;
 
-                $("#filter-container").append('<select class="js-example-basic-multiple ' + filter_title + '-filter" multiple="" style="width:320px;""></select>');
+                $(".filter-container").append('<select class="js-example-basic-multiple ' + filter_title + '-filter" multiple="" style="width:320px;""></select>');
                 $("." + filter_title + "-filter").append('<option value="">' + filter_title + '</option>');
 
                 for (j = 0; j < filter_uniques.length; j++) {
@@ -299,7 +158,6 @@
                 }
 
                 $('.' + filter_title + "-filter").select2({
-                    width: '100%',
                     placeholder: filter_title,
                     tags: true
                 });
@@ -320,16 +178,8 @@
 
 
             $('.filter-list-item').click(function () {
-                $(this).parent().parent().toggleClass('filter-selected')
+                $(this).parent().toggleClass('filter-selected')
             })
-
-            $('.filter-show').click(function () {
-                $(this).parent().parent().toggleClass('visible')
-                var text = $(this).text();
-                $(this).text(
-                    text == "[Show]" ? "[Hide]" : "[Show]");
-            })
-            
         });
     </script>
 
@@ -390,13 +240,10 @@
 
 
         function generatechart() {
-
-            var visElemOffsetWidth = document.getElementById("vis-container").offsetWidth;
-            console.log('The vis container is ' + visElemOffsetWidth + 'px');
-
-            var margin = { top: 50, right: 25, bottom: 50, left: 25 },
-                width = visElemOffsetWidth - margin.left - margin.right,
-                height = (400 * (qselectorarray.length - 1)) - margin.top - margin.bottom;
+            
+            var margin = { top: 50, right: 0, bottom: 50, left: 0 },
+                width = 650 - margin.left - margin.right,
+                height = (500 * (qselectorarray.length - 1)) - margin.top - margin.bottom;
 
             if (qselectorarray === undefined || qselectorarray.length === 0) {
                 qselectorarray = ["Country", "Device_donated_on"]
@@ -412,8 +259,6 @@
                 numeric: true,
                 sensitivity: 'base'
             });
-
-            $("#vis").empty()
 
             var svg = d3.select("#vis").append("svg")
                 .attr("width", width + margin.left + margin.right)

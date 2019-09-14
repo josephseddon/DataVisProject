@@ -65,6 +65,20 @@ namespace DataVisProject.Controllers
             return View();
         }
 
+        public IActionResult Surveyfiltervertical()
+        {
+            ViewData["Message"] = "Survey with complex filter";
+
+            return View();
+        }
+
+        public IActionResult Surveystyleupdate()
+        {
+            ViewData["Message"] = "Survey with complex filter";
+
+            return View();
+        }
+
         public IActionResult Sandbox()
         {
             ViewData["Message"] = "Survey with basic filter";
