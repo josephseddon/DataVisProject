@@ -235,7 +235,7 @@
         }
 
 
-        d3.csv('~/All_data_with_dates_and_filtered.csv', function (error, csv) {
+        d3.csv('All_data_with_dates_and_filtered.csv', function (error, csv) {
             datacolumns = d3.keys(csv[0]);
             datacolumnssize = datacolumns.length;
 
@@ -417,7 +417,7 @@
                 .append("g")
 
 
-            d3.csv("~/All_data_with_dates_and_filtered.csv", function (error, csv) {
+            d3.csv("All_data_with_dates_and_filtered.csv", function (error, csv) {
                 filterselect();
 
                 if (filtercount > 0) {
