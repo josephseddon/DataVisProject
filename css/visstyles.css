@@ -1,0 +1,267 @@
+﻿.csvcolumn-list {
+    -webkit-column-count: 1;
+    -moz-column-count: 1;
+    column-count: 1;
+}
+
+    .csvcolumn-list li {
+        flex: 1 0 25%;
+    }
+
+.widget {
+    content: "";
+    clear: both;
+    width: 100%;
+    padding-top: 20px;
+}
+
+#filter-container {
+    float: left;
+    width: 25%;
+}
+
+#select-container {
+    float: right;
+    width: 25%;
+}
+
+#vis-container {
+    float: left;
+    width: 50%;
+}
+
+#generate {
+    border: solid 2px;
+    width: 200px;
+    background: #14866d;
+    font-weight: bold;
+    color: #fff;
+    height: 40px;
+    border-radius: 4px;
+    text-align: center;
+    margin: 9px auto;
+    padding-top: 5px;
+    font-size: 18px;
+}
+
+    #generate:hover {
+        background-color: #25967D
+    }
+
+#vis svg {
+    margin: auto;
+    display: block;
+}
+
+#vis {
+    padding-left: 25px;
+}
+
+.filter-label {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: unset;
+    font-weight: unset;
+    cursor: pointer;
+}
+
+.filter-selected {
+    background-color: #36c;
+    color: #fff;
+    font-weight: bold;
+}
+
+#filter-container .legend,
+#select-container .legend {
+    font-family: montserrat;
+    color: white;
+    background: #666;
+    text-align: center;
+    height: 38px;
+    font-size: 20px;
+}
+
+#filter-container .legend {
+    border-radius: 0px 10px 10px 0px;
+}
+
+#select-container .legend {
+    border-radius: 10px 0px 0px 10px;
+}
+
+.filter-show {
+    display: none;
+}
+
+@media screen and (max-width: 1000px) {
+    #filter-container,
+    #select-container {
+        float: unset;
+        width: 100%;
+        overflow: hidden;
+        height: 40px;
+    }
+
+        #filter-container .legend {
+            border-radius: unset;
+        }
+
+        #select-container .legend {
+            border-radius: unset;
+        }
+
+    #vis-container {
+        width: 100%;
+    }
+
+    .filter-show {
+        display: inline;
+    }
+
+    .visible,
+    .visible {
+        height: 100% !important;
+        overflow: visible !important;
+    }
+}
+
+/* The container */
+.filter-label,
+.crosstabcheck-label {
+    display: block;
+    position: relative;
+    padding: 10px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.filter-label-check {
+    display: block;
+    position: relative;
+    padding: 10px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.filter-label .filter-list-item,
+.crosstabcheck-label .crosstabcheck-input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.filter-label-check .filter-list-item {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.filter-label .checkmark,
+.crosstabcheck-label .checkmark {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: solid 1px #ccc;
+}
+
+.filter-label-check .checkmark {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    height: 25px;
+    width: 25px;
+    border-radius: unset;
+    background-color: #fff;
+    border: solid 1px #ccc;
+}
+
+/* On mouse-over, add a grey background color */
+.filter-label:hover .filter-list-item ~ .checkmark,
+.crosstabcheck-label .crosstabcheck-input ~ .checkmark {
+    background-color: #ccc;
+}
+
+.filter-label-check:hover .filter-list-item ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.filter-label .filter-list-item:checked ~ .checkmark,
+.crosstabcheck-label .crosstabcheck-input:checked ~ .checkmark {
+    background-color: #fff;
+}
+
+.filter-label-check .filter-list-item:checked ~ .checkmark {
+    background-color: #fff;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.filter-label .filter-list-item:checked ~ .checkmark:after,
+.crosstabcheck-label .crosstabcheck-input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.filter-label-check .filter-list-item:checked ~ .checkmark:after {
+    display: block;
+}
+/* Style the checkmark/indicator */
+.filter-label .checkmark:after,
+.crosstabcheck-label .checkmark:after {
+    top: 7px;
+    left: 7px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #36c;
+}
+
+/* Style the checkmark/indicator */
+.filter-label-check .checkmark:after {
+    right: 9px;
+    left: unset;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid #36c;
+    border-radius: unset;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    background: unset;
+}
+
+.tooltip{
+    opacity: 1 !important;
+}
+
+.plotly-bar{
+    width:100%;
+}
+
+.plotly-pie {
+    width: 100%;
+}
