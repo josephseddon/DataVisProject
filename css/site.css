@@ -1,0 +1,243 @@
+﻿body {
+    font-family: 'system-ui',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen-Sans','Ubuntu','Cantarell','Lato','Helvetica Neue','Helvetica','Arial',sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#header {
+    background: #333;
+}
+
+#header-nav {
+    margin: auto;
+    width: 60%;
+    text-align: center;
+    font-weight: bold;
+    padding: 1em 0;
+}
+
+.header-nav-link {
+    color: white;
+    text-decoration: none;
+}
+
+    .header-nav-link:hover {
+        text-decoration: underline;
+    }
+
+.body-title {
+}
+
+
+a {
+    text-decoration: none;
+}
+
+.admin-table {
+    display: grid;
+    grid-template-columns: repeat(4, 20%);
+    grid-template-rows: repeat(1, 110px);
+    grid-gap: 10px;
+    margin: auto;
+    margin-top: 40px;
+    max-width: 1200px;
+    justify-content: center;
+}
+
+@media screen and (max-width: 1050px) {
+    .admin-table {
+        grid-template-columns: repeat(2, 40%);
+        max-width: 800px;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .admin-table {
+        grid-template-columns: repeat(1, 80%);
+        max-width: 400px;
+    }
+}
+
+.admin-element {
+    padding: 4px;
+    position: relative;
+    z-index: 1;
+    cursor: default;
+    transition: all 0.3s ease;
+}
+
+    .admin-element .admin-element-inner {
+        background: #fff;
+        padding: 10px 15px;
+        height: calc(100%);
+        transition: inherit;
+    }
+
+        .admin-element .admin-element-inner:hover {
+            background: #36c;
+        }
+
+    .admin-element .title {
+        font: 700 34px/1.3 "Poppins", sans-serif;
+        margin: 0.3em 0 0;
+        transition: 0.8s ease 600ms;
+    }
+
+    .admin-element .description {
+        font: 500 12px "Poppins", sans-serif;
+        margin-top: -0.2em;
+    }
+
+    .admin-element:hover {
+        transform: scale(1.03);
+        z-index: 10;
+    }
+
+        .admin-element:hover .periodic-element-inner {
+            background: transparent;
+        }
+
+        .admin-element:hover .title,
+        .admin-element:hover .description {
+            -webkit-text-fill-color: #fff;
+        }
+
+a.admin-element {
+    cursor: pointer;
+}
+
+.admin-stuff {
+    background: linear-gradient(to bottom right, #36c 0%, #36c 100%);
+}
+
+    .admin-stuff .title,
+    .admin-stuff .description {
+        background: -webkit-linear-gradient(#36c, #36c);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+.empty-spacer-1 {
+    grid-column: 3 / span 4;
+    grid-row: 1;
+}
+
+.empty-spacer-2 {
+    grid-column: 1;
+    grid-row: 4;
+}
+
+.widthcontrol {
+    width: 660px;
+    margin: auto;
+}
+
+@media screen and (max-width: 640px) {
+    .widthcontrol {
+        width: 100%;
+        padding: 1em;
+    }
+}
+
+.panel-primary {
+    margin-top: 30px
+}
+
+.pageviewscontainer {
+    margin: auto;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    margin-top: 20px;
+    border: 1px solid #36c;
+    border-radius: 10px;
+}
+
+.pageviewstext {
+    font-weight: 700;
+}
+
+thead {
+    background: #00AF89;
+    color: white;
+}
+
+h2, .h2 {
+    text-align: center;
+    padding: 20px;
+}
+
+.mainpage-links a:link {
+    font-size: 30px;
+}
+
+@media screen and (max-width: 640px) {
+    .mainpage-links a:link {
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .mainpage-links a:link {
+        font-size: 18px;
+    }
+}
+
+
+.mainpage-links a:link,
+.mainpage-links a:visited {
+    color: #333;
+    width: 100%;
+    padding: 14px 25px;
+    text-align: left;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    margin-top: 0.4em;
+    margin-bottom: 0.7em;
+    background-image: linear-gradient(to right, #efefef, #fff);
+}
+
+.mainpage-links a:hover,
+.mainpage-links a:active {
+    color: #222;
+    width: 100%;
+    padding: 14px 25px;
+    text-align: left;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    margin-top: 0.4em;
+    margin-bottom: 0.7em;
+    background-image: linear-gradient(to right, #eee, #efefef);
+}
+
+#body-title > h2 {
+    margin: auto;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.comment-responses {
+    padding-left: 30px;
+}
+
+.commentsection {
+    padding-top: 20px;
+    border-top: 1px solid #333;
+    margin-top: 10px;
+}
+
+#Username,
+#Password {
+    width: 50%;
+    min-width: 250px;
+}
