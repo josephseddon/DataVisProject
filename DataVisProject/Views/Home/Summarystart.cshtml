@@ -291,7 +291,7 @@
 <script src="~/js/jquery.sortable.min.js"></script>
 <script src="~/lib/UI-Dropdown-master/dropdown.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
-<script src="~/js/plotly.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 <script>
     var datacolumns;
@@ -487,12 +487,10 @@
         console.log(filterarray)
     }
 
-    function singlechart() {
+    function singlechart(csv) {
         if (qselectorval === undefined || qselectorval === null) {
             qselectorval = "Country";
         }
-
-        d3.csv("https://localhost:44318/All_data_with_dates_and_filtered.csv", function (error, csv) {
             filterselect();
 
             if (filtercount > 0) {
@@ -546,15 +544,14 @@
 
             Plotly.newPlot('plotly-bar', bardata);
             Plotly.newPlot('plotly-pie', piedata);
-        });
     }
 
-    function groupchart() {
+    function groupchart(csv) {
         if (qselectorval === undefined || qselectorval === null) {
             qselectorval = "Country";
         }
 
-        d3.csv("https://localhost:44318/All_data_with_dates_and_filtered.csv", function (error, csv) {
+
             filterselect();
 
             if (filtercount > 0) {
@@ -612,12 +609,19 @@
             var layout = { barmode: 'group' };
 
             Plotly.newPlot('plotly-bar', bardata, layout);
-        });
     }
 
     function generatechart() {
+        if (qselectorval === undefined || qselectorval === null) {
+            qselectorval = "Country";
+        }
 
-        groupchart()
+        d3.csv("https://localhost:44318/All_data_with_dates_and_filtered.csv", function (error, csv) {
+
+            groupchart(csv);
+
+        })
+
     };
 
     $("input[name=qselector]").change(qselector);

@@ -1,206 +1,12 @@
-<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css" />
-<link href="css/jquery-ui.css" rel="stylesheet" />
-<link href="css/site.css" rel="stylesheet" />
+@{
+    ViewData["Title"] = "Survey Data";
+}
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link href="css/d3.parsets.css" rel="stylesheet" />
-<link href="lib/UI-Dropdown-master/dropdown.css" rel="stylesheet" />
+<link href="/css/d3.parsets.css" rel="stylesheet" />
+<link href="/lib/UI-Dropdown-master/dropdown.css" rel="stylesheet" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+<link href="/css/visstyles.css" rel="stylesheet" />
 
-<style>
-    .csvcolumn-list {
-        -webkit-column-count: 1;
-        -moz-column-count: 1;
-        column-count: 1;
-    }
-
-        .csvcolumn-list li {
-            flex: 1 0 25%;
-        }
-
-    .widget {
-        content: "";
-        clear: both;
-        width: 100%;
-        padding-top: 20px;
-    }
-
-    #filter-container {
-        float: left;
-        width: 25%;
-    }
-
-    #select-container {
-        float: right;
-        width: 25%;
-    }
-
-    #vis-container {
-        float: left;
-        width: 50%;
-    }
-
-    #generate {
-        border: solid 2px;
-        width: 200px;
-        background: #14866d;
-        font-weight: bold;
-        color: #fff;
-        height: 40px;
-        border-radius: 4px;
-        text-align: center;
-        margin: 9px auto;
-        padding-top: 5px;
-        font-size: 18px;
-    }
-
-        #generate:hover {
-            background-color: #25967D
-        }
-
-    #vis svg {
-        margin: auto;
-        display: block;
-    }
-
-    #vis {
-        padding-left: 25px;
-    }
-
-    .filter-label {
-        width: 100%;
-        padding: 5px;
-        margin-bottom: unset;
-        font-weight: unset;
-        cursor: pointer;
-    }
-
-    .filter-selected {
-        background-color: #36c;
-        color: #fff;
-        font-weight: bold;
-    }
-
-    #filter-container .legend,
-    #select-container .legend {
-        font-family: montserrat;
-        color: white;
-        background: #666;
-        text-align: center;
-        height: 38px;
-        font-size: 20px;
-    }
-
-    #filter-container .legend {
-        border-radius: 0px 10px 10px 0px;
-    }
-
-    #select-container .legend {
-        border-radius: 10px 0px 0px 10px;
-    }
-
-    .filter-show {
-        display: none;
-    }
-
-    @@media screen and (max-width: 1000px) {
-        #filter-container,
-        #select-container {
-            float: unset;
-            width: 100%;
-            overflow: hidden;
-            height: 40px;
-        }
-
-            #filter-container .legend {
-                border-radius: unset;
-            }
-
-            #select-container .legend {
-                border-radius: unset;
-            }
-
-        #vis-container {
-            width: 100%;
-        }
-
-        .filter-show {
-            display: inline;
-        }
-
-        .visible,
-        .visible {
-            height: 100% !important;
-            overflow: visible !important;
-        }
-    }
-
-    /* The container */
-    .filter-label {
-        display: block;
-        position: relative;
-        padding: 10px;
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
-
-        /* Hide the browser's default checkbox */
-        .filter-label .filter-list-item {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-            height: 0;
-            width: 0;
-        }
-
-    /* Create a custom checkbox */
-    .checkmark {
-        position: absolute;
-        top: 5px;
-        right: 10px;
-        height: 25px;
-        width: 25px;
-        background-color: #fff;
-        border: solid 1px #ccc;
-    }
-
-    /* On mouse-over, add a grey background color */
-    .filter-label:hover .filter-list-item ~ .checkmark {
-        background-color: #ccc;
-    }
-
-    /* When the checkbox is checked, add a blue background */
-    .filter-label .filter-list-item:checked ~ .checkmark {
-        background-color: #fff;
-    }
-
-    /* Create the checkmark/indicator (hidden when not checked) */
-    .checkmark:after {
-        content: "";
-        position: absolute;
-        display: none;
-    }
-
-    /* Show the checkmark when checked */
-    .filter-label .filter-list-item:checked ~ .checkmark:after {
-        display: block;
-    }
-
-    /* Style the checkmark/indicator */
-    .filter-label .checkmark:after {
-        right: 9px;
-        top: 5px;
-        width: 5px;
-        height: 10px;
-        border: solid #36c;
-        border-width: 0 3px 3px 0;
-        -webkit-transform: rotate(45deg);
-        -ms-transform: rotate(45deg);
-        transform: rotate(45deg);
-    }
-</style>
 <div class="widget">
     <div id="filter-container">
         <div class="legend">Filters <div class="filter-show">[Show]</div></div>
@@ -213,126 +19,44 @@
 
     </div>
     <div id="vis-container">
+        <div id="inline-validationtext" style="display:none;">Please select at least one value</div>
         <div id="generate">Generate chart</div>
+        <div id="plotly-bar"></div>
+        <div id="plotly-pie"></div>
         <div id="vis"></div>
     </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="js/d3.min.js"></script>
+<script src="/js/d3.min.js"></script>
 <script src="https://d3js.org/d3-array.v2.min.js"></script>
-<script src="js/d3.parsets.js"></script>
-<script src="js/highlight.js"></script>
-<script src="js/jquery.sortable.js"></script>
-<script src="lib/UI-Dropdown-master/dropdown.js"></script>
+<script src="/js/d3.parsets.js"></script>
+<script src="/js/highlight.js"></script>
+<script src="/js/jquery.sortable.js"></script>
+<script src="/lib/UI-Dropdown-master/dropdown.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
 <script>
+    var data;
     var datacolumns;
     var i;
     var datasummary = [];
+    var filter_on = 'Country';
 
     function column(a, b) {
         this.title = a;
         this.values = b;
     }
 
+    function groupbardata(a, b, c, d) {
+        this.x = a;
+        this.y = b;
+        this.name = c;
+        this.type = d;
+    }
 
-    d3.csv('All_data_with_dates_and_filtered.csv', function (error, csv) {
-        datacolumns = d3.keys(csv[0]);
-        datacolumnssize = datacolumns.length;
-
-        for (i = 2; i < datacolumns.length; i++) {
-            var columnname = datacolumns[i];
-            var columnuniques = d3.map(csv, function (d) { return d[datacolumns[i]]; }).keys();
-            console.log(columnname);
-            console.log(columnuniques);
-            var columnsummary = new column(columnname, columnuniques)
-            console.log(columnsummary);
-            datasummary.push(columnsummary);
-        }
-        console.log('Data summary has ' + datasummary.length + ' objects');
-        console.log(datasummary);
-
-        var collator = new Intl.Collator(undefined, {
-            numeric: true,
-            sensitivity: 'base'
-        });
-
-        for (i = 2; i < datacolumnssize; i++) {
-
-            $(".csvcolumn-list").append('<li class="list-group-item" draggable="true"> <label class="filter-label" for= "check-' + datacolumns[i] + '">' + datacolumns[i] + '<input class="filter-list-item" type="checkbox" name="qselector" id="check-' + datacolumns[i] + '" value="' + datacolumns[i] + '"><span class="checkmark"></span></label ></li>');
-        }
-
-        $('.list-group-sortable').sortable({
-            placeholderClass: 'list-group-item'
-        });
-
-        var filter_on = 'Country';
-
-        var filter_list = d3.map(csv, function (d) {
-            return d[filter_on];
-        }).keys();
-
-        filter_list.sort(collator.compare);
-
-        console.log(filter_list);
-        filterlength = filter_list.length;
-
-        for (i = 0; i < filter_list.length; i++) {
-            console.log(i);
-            $(".filter-list").append('<li class=""> <label for= "Source">' + filter_list[i] + '<input type="checkbox" name="qfilter" class="filter-check" id="' + filter_list[i] + '" value="' + filter_list[i] + '"></label ></li>');
-        }
-
-        for (i = 0; i < datasummary.length; i++) {
-
-            var filter_title = datasummary[i].title;
-            console.log('Beginning build of' + filter_title + ' filter');
-            var filter_uniques = datasummary[i].values;
-
-            $("#filter-container").append('<select class="js-example-basic-multiple ' + filter_title + '-filter" multiple="" style="width:320px;""></select>');
-            $("." + filter_title + "-filter").append('<option value="">' + filter_title + '</option>');
-
-            for (j = 0; j < filter_uniques.length; j++) {
-                $("." + filter_title + "-filter").append('<option value="' + filter_uniques[j] + '">' + filter_uniques[j] + '</option>');
-            }
-
-            $('.' + filter_title + "-filter").select2({
-                width: '100%',
-                placeholder: filter_title,
-                tags: true
-            });
-
-        }
-
-
-        var filterarray = [];
-        var filter_id = '.' + filter_on + '-filter';
-        $('.Country-filter').on('change.select2', function (e) {
-            filterarray = [];
-            $('.Country-filter').find(':selected').each(function () {
-                filterarray.push($(this).val());
-                console.log("qselectorarray array added")
-            });
-            console.log(filterarray)
-        });
-
-
-        $('.filter-list-item').click(function () {
-            $(this).parent().parent().toggleClass('filter-selected')
-        })
-
-        $('.filter-show').click(function () {
-            $(this).parent().parent().toggleClass('visible')
-            var text = $(this).text();
-            $(this).text(
-                text == "[Show]" ? "[Hide]" : "[Show]");
-        })
-
-    });
-</script>
-
-<script>
     d3.rebind = function (target, source) {
         var i = 1, n = arguments.length, method;
         while (++i < n) target[method = arguments[i]] = d3_rebind(target, source, source[method]);
@@ -351,14 +75,88 @@
             return v;
         };
     };
+
+    function filterevents() {
+        $('.filter-list-item').click(function () {
+            $(this).parent().parent().toggleClass('filter-selected')
+        })
+
+        $('.filter-show').click(function () {
+            $(this).parent().parent().toggleClass('visible')
+            var text = $(this).text();
+            $(this).text(
+                text == "[Show]" ? "[Hide]" : "[Show]");
+        })
+    }
+
+    function filterSelectConstructor() {
+
+        d3.csv('All_data_with_dates_and_filtered.csv', function (error, csv) {
+            datacolumns = d3.keys(csv[0]);
+            datacolumnssize = datacolumns.length;
+
+            for (i = 2; i < datacolumns.length; i++) {
+                var columnname = datacolumns[i];
+                var columnuniques = d3.map(csv, function (d) { return d[datacolumns[i]]; }).keys();
+                console.log(columnname);
+                console.log(columnuniques);
+                var columnsummary = new column(columnname, columnuniques)
+                console.log(columnsummary);
+                datasummary.push(columnsummary);
+            }
+            console.log('Data summary has ' + datasummary.length + ' objects');
+            console.log(datasummary);
+
+            var collator = new Intl.Collator(undefined, {
+                numeric: true,
+                sensitivity: 'base'
+            });
+
+            for (i = 2; i < datacolumnssize; i++) {
+
+                $('.csvcolumn-list').append('<li class="list-group-item" draggable="true"> <label class="filter-label filter-label-check" for= "check-' + datacolumns[i] + '">' + datacolumns[i] + '<input class="filter-list-item" type="checkbox" name="qselector" id="check-' + datacolumns[i] + '" value="' + datacolumns[i] + '"><span class="checkmark"></span></label ></li>');
+            }
+
+            $('.list-group-sortable').sortable({
+                placeholderClass: 'list-group-item'
+            });
+
+            for (i = 0; i < datasummary.length; i++) {
+
+                var filter_title = datasummary[i].title;
+                console.log('Beginning build of' + filter_title + ' filter');
+                var filter_uniques = datasummary[i].values;
+
+                $("#filter-container").append('<select class="js-example-basic-multiple ' + filter_title + '-filter" multiple="" style="width:320px;""></select>');
+                $("." + filter_title + "-filter").append('<option value="">' + filter_title + '</option>');
+
+                for (j = 0; j < filter_uniques.length; j++) {
+                    $("." + filter_title + "-filter").append('<option value="' + filter_uniques[j] + '">' + filter_uniques[j] + '</option>');
+                }
+
+                $('.' + filter_title + "-filter").select2({
+                    width: '100%',
+                    placeholder: filter_title,
+                    tags: true
+                });
+
+            }
+
+
+            filterevents();
+        });
+
+
+    };
+
+    filterSelectConstructor();
 </script>
 
 <script>
-    var filter_on = 'Country';
-    var filter_id = '.' + filter_on + '-filter';
     var qselectorarray;
     var filterarray;
     var filtercount;
+
 
     function qselector() {
         qselectorarray = [];
@@ -367,7 +165,6 @@
             qselectorarray.push($(this).val());
             console.log("qselectorarray array added")
         });
-        generatechart();
     }
 
     function filterselect() {
@@ -387,14 +184,147 @@
         console.log(filterarray)
     }
 
+    function singlechart(csv) {
+        if (qselectorarray === undefined || qselectorarray === null) {
+            qselectorarray[0] = "Country";
+        }
+        filterselect();
 
-    function generatechart() {
+        if (filtercount > 0) {
+            var data = csv;
 
-        var visElemOffsetWidth = document.getElementById("vis-container").offsetWidth;
-        console.log('The vis container is ' + visElemOffsetWidth + 'px');
+            for (j = 0; j < filterarray.length; j++) {
+                var t;
+                t = data.filter(function (d, i) { return filterarray[j].values.indexOf(d[filterarray[j].title]) >= 0 });
+                data = t;
+            }
+        } else {
+            var data = csv; // so that no boxes checked shows all data
+        }
+
+
+
+        filter = qselectorarray[0];
+
+
+        var rolledup = d3.rollup(data, v => v.length, d => d[filter]);
+        console.log(rolledup);
+
+        rolleduparray = Array.from(rolledup);
+        console.log(rolleduparray);
+
+        rolleduparray.sort(function (x, y) { return d3.ascending(x[0], y[0]); });
+
+        var x = [];
+        var y = [];
+
+        for (i = 0; i < rolleduparray.length; i++) {
+            x.push(rolleduparray[i][0]);
+            y.push(rolleduparray[i][1]);
+        }
+
+        var bardata = [
+            {
+                x: x,
+                y: y,
+                type: 'bar'
+            }
+        ];
+        var piedata = [
+            {
+                labels: x,
+                values: y,
+                type: 'pie',
+                textinfo: 'none',
+                hole: .4
+            }
+        ];
+
+        Plotly.newPlot('plotly-bar', bardata, { responsive: true });
+        Plotly.newPlot('plotly-pie', piedata, { responsive: true });
+    }
+
+    function groupchart(csv) {
+        if (qselectorarray === undefined || qselectorarray === null) {
+            qselectorarray[0] = "Country";
+        }
+
+
+        filterselect();
+
+        if (filtercount > 0) {
+            var data = csv;
+
+            for (j = 0; j < filterarray.length; j++) {
+                var t;
+                t = data.filter(function (d, i) { return filterarray[j].values.indexOf(d[filterarray[j].title]) >= 0 });
+                data = t;
+            }
+        } else {
+            var data = csv; // so that no boxes checked shows all data
+        }
+
+
+        var rolledup = d3.rollup(data, v => v.length, d => d[qselectorarray[0]], d => d[qselectorarray[1]]);
+        console.log('weve rolled up');
+        console.log(rolledup);
+
+        console.log('Now time to convert map to array');
+        var rolledupgrouparray = Array.from(rolledup);
+        console.log('weve created the array');
+        console.log(rolledupgrouparray);
+        console.log('Now time to convert nested map to array');
+        for (i = 0; i < rolledupgrouparray.length; i++) {
+            rolledupgrouparray[i][1] = Array.from(rolledupgrouparray[i][1]);
+        }
+        console.log('weve created the nested array');
+        console.log(rolledupgrouparray);
+        for (i = 0; i < rolledupgrouparray.length; i++) {
+            rolledupgrouparray[i][1].sort(function (x, y) { return d3.ascending(x[0], y[0]); });
+        }
+
+        var bardata = []
+        for (var i = 0; i < rolledupgrouparray.length; i++) {
+            var group = new groupbardata();
+            var xarray = [];
+            var yarray = [];
+            for (var j = 0; j < rolledupgrouparray[i][1].length; j++) {
+                xarray.push(rolledupgrouparray[i][1][j][0]);
+                yarray.push(rolledupgrouparray[i][1][j][1]);
+            }
+            group.name = rolledupgrouparray[i][0];
+            group.type = 'bar';
+            group.x = xarray;
+            group.y = yarray;
+            bardata.push(group);
+        }
+        console.log(bardata);
+
+        var layout = { barmode: 'group', barnorm: 'percent' };
+
+        Plotly.newPlot('plotly-bar', bardata, layout);
+    }
+
+    function generateparset(csv) {
+        filterselect();
+
+        if (filtercount > 0) {
+            var data = csv;
+
+            for (j = 0; j < filterarray.length; j++) {
+                var t;
+                t = data.filter(function (d, i) { return filterarray[j].values.indexOf(d[filterarray[j].title]) >= 0 });
+                data = t;
+            }
+        } else {
+            var data = csv; // so that no boxes checked shows all data
+        }
+
+        var parsetVisWidth = document.getElementById("vis-container").offsetWidth;
+        console.log('The vis container is ' + parsetVisWidth + 'px');
 
         var margin = { top: 50, right: 25, bottom: 50, left: 25 },
-            width = visElemOffsetWidth - margin.left - margin.right,
+            width = parsetVisWidth - margin.left - margin.right,
             height = (400 * (qselectorarray.length - 1)) - margin.top - margin.bottom;
 
         if (qselectorarray === undefined || qselectorarray.length === 0) {
@@ -419,39 +349,83 @@
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
 
-
-        d3.csv("All_data_with_dates_and_filtered.csv", function (error, csv) {
-            filterselect();
-
-            if (filtercount > 0) {
-                var data = csv;
-
-                for (j = 0; j < filterarray.length; j++) {
-                    var t;
-                    t = data.filter(function (d, i) { return filterarray[j].values.indexOf(d[filterarray[j].title]) >= 0 });
-                    data = t;
-                }
-            } else {
-                var data = csv; // so that no boxes checked shows all data
-            }
-            svg.datum(data).call(chart);
-        });
+        svg.datum(data).call(chart);
     };
 
-    $("input[name=qselector]").change(qselector);
-    $("#generate").click(qselector);
+
+
+    function generatechart() {
+        qselector();
+
+        if (qselectorarray === undefined || qselectorarray === null) {
+            $(".inline-validationtext").show();
+        } else if (qselectorarray.length == 1) {
+            $(".inline-validationtext").hide();
+            d3.csv("All_data_with_dates_and_filtered.csv", function (error, csv) {
+                singlechart(csv);
+            })
+        } else if (qselectorarray.length == 2) {
+            $(".inline-validationtext").hide();
+            d3.csv("All_data_with_dates_and_filtered.csv", function (error, csv) {
+                $("#vis").empty()
+                generateparset(csv);
+                groupchart(csv);
+            })
+        } else {
+            $(".inline-validationtext").hide();
+            d3.csv("All_data_with_dates_and_filtered.csv", function (error, csv) {
+                $("#vis").empty()
+                generateparset(csv);
+            })
+        };
+    }
+
+    var pielegend;
+
+    window.onresize = function () {
+
+        qselector();
+
+        var visWidth = document.getElementById("vis-container").offsetWidth;
+        var barDiv = document.getElementById("plotly-bar");
+        var pieDiv = document.getElementById("plotly-pie");
+
+        if (visWidth < 925) {
+            pielegend = false;
+        } else {
+            pielegend = true;
+        }
+
+
+        if (qselectorarray.length == 1) {
+            Plotly.relayout(barDiv, {
+                width: 0.9 * visWidth,
+
+            })
+            Plotly.relayout(pieDiv, {
+                width: 0.9 * visWidth,
+                showlegend: pielegend
+            })
+        } else if (qselectorarray.length == 2) {
+            Plotly.relayout(barDiv, {
+                width: 0.9 * visWidth
+            })
+        } else {
+        };
+    }
+    $("input[name=qselector]").change(generatechart);
+    $("#generate").click(generatechart);
     $('.list-group-sortable').sortable({
         placeholderClass: 'list-group-item'
     });
     $('.list-group-sortable').sortable().on("sortupdate", function (e, ui) {
-        qselector();
+        generatechart();
     });
 
     $(filter_id).on('change.select2', function (e) {
         filterselect();
         if (qselectorarray.length > 0) { generatechart(); }
     });
-
 
 </script>
 
