@@ -360,6 +360,7 @@
             if (qselectorarray === undefined || qselectorarray === null) {
                 $(".inline-validationtext").show();
             } else if (qselectorarray.length == 1) {
+                $("#vis").empty()
                 $(".inline-validationtext").hide();
                 d3.csv("https://localhost:44318/All_data_with_dates_and_filtered.csv", function (error, csv) {
                     singlechart(csv);
@@ -368,6 +369,7 @@
                 $(".inline-validationtext").hide();
                 d3.csv("https://localhost:44318/All_data_with_dates_and_filtered.csv", function (error, csv) {
                     $("#vis").empty()
+                    $("#plotly-pie").empty()
                     generateparset(csv);
                     groupchart(csv);
                 })
@@ -375,6 +377,8 @@
                 $(".inline-validationtext").hide();
                 d3.csv("https://localhost:44318/All_data_with_dates_and_filtered.csv", function (error, csv) {
                     $("#vis").empty()
+                    $("#plotly-bar").empty()
+                    $("#plotly-pie").empty()
                     generateparset(csv);
                 })
             };
@@ -400,6 +404,8 @@
             if (qselectorarray.length == 1) {
                 Plotly.relayout(barDiv, {
                     width: 0.9 * visWidth,
+                    showlegend: pielegend
+
                     
                 })
                 Plotly.relayout(pieDiv, {
@@ -408,7 +414,8 @@
                 })
             } else if (qselectorarray.length == 2) {
                 Plotly.relayout(barDiv, {
-                    width: 0.9 * visWidth
+                    width: 0.9 * visWidth,
+                    showlegend: pielegend
                 })
             } else {
             };
