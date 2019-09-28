@@ -360,19 +360,23 @@
         } else if (qselectorarray.length == 1) {
             $(".inline-validationtext").hide();
             d3.csv("All_data_with_dates_and_filtered.csv", function (error, csv) {
+                $("#vis").empty();
                 singlechart(csv);
             })
         } else if (qselectorarray.length == 2) {
             $(".inline-validationtext").hide();
             d3.csv("All_data_with_dates_and_filtered.csv", function (error, csv) {
-                $("#vis").empty()
+                $("#vis").empty();
+                $("#plotly-pie").empty();
                 generateparset(csv);
                 groupchart(csv);
             })
         } else {
             $(".inline-validationtext").hide();
             d3.csv("All_data_with_dates_and_filtered.csv", function (error, csv) {
-                $("#vis").empty()
+                $("#vis").empty();
+                $("#plotly-bar").empty();
+                $("#plotly-pie").empty();
                 generateparset(csv);
             })
         };
@@ -382,7 +386,7 @@
 
     window.onresize = function () {
 
-        qselector();
+        generatechart();
 
         var visWidth = document.getElementById("vis-container").offsetWidth;
         var barDiv = document.getElementById("plotly-bar");

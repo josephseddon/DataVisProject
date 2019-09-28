@@ -380,15 +380,20 @@
                     $("#plotly-bar").empty()
                     $("#plotly-pie").empty()
                     generateparset(csv);
-                })
-            };
+                });
+            }
         }
 
         var pielegend;
 
         window.onresize = function () {
 
-            qselector();
+            if (qselectorarray.length > 1) {
+                qselector();
+                d3.csv("https://localhost:44318/All_data_with_dates_and_filtered.csv", function (error, csv) {
+                    generateparset(csv);
+                }
+            }
 
             var visWidth = document.getElementById("vis-container").offsetWidth;
             var barDiv = document.getElementById("plotly-bar");
