@@ -36,7 +36,7 @@ function groupbarData(x, y, name, type) {
 }
 
 /**
-* Readding depracated d3.js function necessary for parsets
+* Re-adding deprecated d3.js function necessary for parsets
 * @@function d3.rebind
 */
 d3.rebind = function (target, source) {
@@ -46,7 +46,7 @@ d3.rebind = function (target, source) {
 };
 
 /**
-* Readding depracated d3.js function necessary for parsets
+* Re-adding deprecated d3.js function necessary for parsets
 * @@function d3_rebind
 */
 function d3_rebind(target, source, method) {
@@ -57,7 +57,7 @@ function d3_rebind(target, source, method) {
 }
 
 /**
-* Readding depracated d3.js function necessary for parsets
+* Re-adding deprecated d3.js function necessary for parsets
 * @@function d3.functor
 */
 d3.functor = function functor(v) {
@@ -84,7 +84,7 @@ function filterEvents() {
 }
 
 /**
-* Contructs data filter and data selection lists in web interface
+* Constructs data filter and data selection lists in web interface
 * @@function filterSelectConstructor
 */
 function filterSelectConstructor() {
@@ -156,7 +156,7 @@ function filterSelectConstructor() {
 
 
 /**
-* Fetchs all dimensions selected by the user and updates global variable
+* Fetches all dimensions selected by the user and updates global variable
 * @@function qSelector
 */
 function qSelector() {
@@ -169,7 +169,7 @@ function qSelector() {
 }
 
 /**
-* Fetchs all filter options selected by the user and updates global variable
+* Fetches all filter options selected by the user and updates global variable
 * @@function filterSelect
 */
 function filterSelect() {
