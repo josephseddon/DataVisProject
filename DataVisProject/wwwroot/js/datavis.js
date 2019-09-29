@@ -1,43 +1,4 @@
-﻿<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-<link href="~/css/jquery-ui.css" rel="stylesheet" />
-<link href="~/css/d3.parsets.css" rel="stylesheet" />
-<link href="~/lib/UI-Dropdown-master/dropdown.css" rel="stylesheet" />
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
-<link href="~/css/visstyles.css" rel="stylesheet" />
-
-<div class="widget">
-    <div id="filter-container">
-        <div class="legend">Filters <div class="filter-show">[Show]</div></div>
-    </div>
-    <div id="select-container">
-        <div class="legend">Display selection <div class="filter-show">[Show]</div></div>
-        <fieldset>
-            <ul class="list-group list-group-sortable csvcolumn-list"></ul>
-        </fieldset>
-
-    </div>
-    <div id="vis-container">
-        <div id="inline-validationtext" style="display:none;">Please select at least one value</div>
-        <div id="generate">Generate chart</div>
-        <div id="plotly-bar"></div>
-        <div id="plotly-pie"></div>
-        <div id="vis"></div>
-    </div>
-</div>
-<script src="~/js/jquery-3.4.1.js"></script>
-<script src="~/js/jquery-ui.js"></script>
-<script src="~/js/d3.min.js"></script>
-<script src="https://d3js.org/d3-array.v2.min.js"></script>
-<script src="~/js/d3.parsets.js"></script>
-<script src="~/js/highlight.js"></script>
-<script src="~/js/jquery.sortable.js"></script>
-<script src="~/lib/UI-Dropdown-master/dropdown.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
-<script>
-    console.log('DataVis application starting');
-    var data;
+   var data;
     var dataColumns;
     var i;
     var dataSummary = [];
@@ -50,9 +11,9 @@
 
     /**
     * Represents a column.
-    * @@class
-    * @@param {string} title - The title of the column
-    * @@param {number[]} values - The value of the column
+    * @class
+    * @param {string} title - The title of the column
+    * @param {number[]} values - The value of the column
     */
     function column(title, values) {
         this.title = title;
@@ -61,11 +22,11 @@
 
     /**
     * Represents a data object for a group bar visulisation.
-    * @@class
-    * @@param {string[]} x - Array of values
-    * @@param {number[]} y - Array of value counts
-    * @@param {string} name - The name of the column
-    * @@param {string} type - The type of chart    */
+    * @class
+    * @param {string[]} x - Array of values
+    * @param {number[]} y - Array of value counts
+    * @param {string} name - The name of the column
+    * @param {string} type - The type of chart    */
     function groupbarData(x, y, name, type) {
         this.x = x;
         this.y = y;
@@ -75,7 +36,7 @@
 
     /**
     * Readding depracated d3.js function necessary for parsets
-    * @@function d3.rebind
+    * @function d3.rebind
     */
     d3.rebind = function (target, source) {
         var i = 1, n = arguments.length, method;
@@ -85,7 +46,7 @@
 
     /**
     * Readding depracated d3.js function necessary for parsets
-    * @@function d3_rebind
+    * @function d3_rebind
     */
     function d3_rebind(target, source, method) {
         return function () {
@@ -96,7 +57,7 @@
 
     /**
     * Readding depracated d3.js function necessary for parsets
-    * @@function d3.functor
+    * @function d3.functor
     */
     d3.functor = function functor(v) {
         return typeof v === "function" ? v : function () {
@@ -106,7 +67,7 @@
 
     /**
     * Adds click events to visualisation elements
-    * @@function filterEvents
+    * @function filterEvents
     */
     function filterEvents() {
         $('.filter-list-item').click(function () {
@@ -123,11 +84,11 @@
 
     /**
     * Contructs data filter and data selection lists in web interface
-    * @@function filterSelectConstructor
+    * @function filterSelectConstructor
     */
     function filterSelectConstructor() {
 
-        d3.csv('/All_data_with_dates_and_filtered.csv', function (error, csv) {
+        d3.csv('All_data_with_dates_and_filtered.csv', function (error, csv) {
             dataColumns = d3.keys(csv[0]);
             dataColumnsSize = dataColumns.length;
 
@@ -157,8 +118,6 @@
                 placeholderClass: 'list-group-item'
             });
 
-            $('.filter-list-item').change(generateChart);
-
             for (i = 0; i < dataSummary.length; i++) {
 
                 var filterTitle = dataSummary[i].title;
@@ -178,11 +137,6 @@
                     tags: true
                 });
 
-                $('.' + filterTitle + "-filter").on('change.select2', function (e) {
-                    console.log('Select 2 change event triggered');
-                    filterSelect();
-                    if (qSelectorArray.length > 0) { generateChart(); }
-                });
             }
 
 
@@ -195,7 +149,7 @@
 
     /**
     * Fetchs all dimensions selected by the user and updates global variable
-    * @@function qSelector
+    * @function qSelector
     */
     function qSelector() {
         qSelectorArray = [];
@@ -208,7 +162,7 @@
 
     /**
     * Fetchs all filter options selected by the user and updates global variable
-    * @@function filterSelect
+    * @function filterSelect
     */
     function filterSelect() {
         filterArray = [];
@@ -229,8 +183,8 @@
 
     /**
     * Creates pie and bar charts
-    * @@function singleChart
-    * @@param {Array} csv - Data output from d3.csv
+    * @function singleChart
+    * @param {Array} csv - Data output from d3.csv
     */
     function singleChart(csv) {
         if (qSelectorArray === undefined || qSelectorArray === null) {
@@ -294,8 +248,8 @@
 
     /**
     * Creates grouped bar chart
-    * @@function groupChart
-    * @@param {Array} csv - Data output from d3.csv
+    * @function groupChart
+    * @param {Array} csv - Data output from d3.csv
     */
     function groupChart(csv) {
         if (qSelectorArray === undefined || qSelectorArray === null) {
@@ -360,8 +314,8 @@
 
     /**
     * Creates parallel set visualisation
-    * @@function generateParset
-    * @@param {Array} csv - Data output from d3.csv
+    * @function generateParset
+    * @param {Array} csv - Data output from d3.csv
     */
     function generateParset(csv) {
         filterSelect();
@@ -412,7 +366,7 @@
 
     /**
     * Provides logic for selecting visualisation function
-    * @@function generateChart
+    * @function generateChart
     */
     function generateChart() {
         qSelector();
@@ -421,13 +375,13 @@
             $(".inline-validationtext").show();
         } else if (qSelectorArray.length == 1) {
             $(".inline-validationtext").hide();
-            d3.csv("/All_data_with_dates_and_filtered.csv", function (error, csv) {
+            d3.csv("All_data_with_dates_and_filtered.csv", function (error, csv) {
                 $("#vis").empty();
                 singleChart(csv);
             })
         } else if (qSelectorArray.length == 2) {
             $(".inline-validationtext").hide();
-            d3.csv("/All_data_with_dates_and_filtered.csv", function (error, csv) {
+            d3.csv("All_data_with_dates_and_filtered.csv", function (error, csv) {
                 $("#vis").empty();
                 $("#plotly-pie").empty();
                 generateParset(csv);
@@ -435,7 +389,7 @@
             })
         } else {
             $(".inline-validationtext").hide();
-            d3.csv("/All_data_with_dates_and_filtered.csv", function (error, csv) {
+            d3.csv("All_data_with_dates_and_filtered.csv", function (error, csv) {
                 $("#vis").empty();
                 $("#plotly-bar").empty();
                 $("#plotly-pie").empty();
@@ -444,8 +398,6 @@
         };
     }
 
-</script>
-<script>
     window.onresize = function () {
 
         generateChart();
@@ -478,9 +430,8 @@
         };
     }
     filterSelectConstructor();
-
-    
-    $('#generate').click(generateChart);
+    $("input[name=qSelector]").change(generateChart);
+    $("#generate").click(generateChart);
     $('.list-group-sortable').sortable({
         placeholderClass: 'list-group-item'
     });
@@ -488,5 +439,7 @@
         generateChart();
     });
 
-    console.log('DataVis Application loading complete');
-</script>
+    $(filter_id).on('change.select2', function (e) {
+        filterSelect();
+        if (qSelectorArray.length > 0) { generateChart(); }
+    });
