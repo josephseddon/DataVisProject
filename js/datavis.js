@@ -89,7 +89,7 @@ function filterEvents() {
 */
 function filterSelectConstructor() {
 
-	d3.csv('/All_data_with_dates_and_filtered.csv', function (error, csv) {
+	d3.csv('All_data_with_dates_and_filtered.csv', function (error, csv) {
 		dataColumns = d3.keys(csv[0]);
 		dataColumnsSize = dataColumns.length;
 
@@ -383,13 +383,13 @@ function generateChart() {
 		$(".inline-validationtext").show();
 	} else if (qSelectorArray.length == 1) {
 		$(".inline-validationtext").hide();
-		d3.csv("/All_data_with_dates_and_filtered.csv", function (error, csv) {
+		d3.csv("All_data_with_dates_and_filtered.csv", function (error, csv) {
 			$("#vis").empty();
 			singleChart(csv);
 		})
 	} else if (qSelectorArray.length == 2) {
 		$(".inline-validationtext").hide();
-		d3.csv("/All_data_with_dates_and_filtered.csv", function (error, csv) {
+		d3.csv("All_data_with_dates_and_filtered.csv", function (error, csv) {
 			$("#vis").empty();
 			$("#plotly-pie").empty();
 			generateParset(csv);
@@ -397,7 +397,7 @@ function generateChart() {
 		})
 	} else {
 		$(".inline-validationtext").hide();
-		d3.csv("/All_data_with_dates_and_filtered.csv", function (error, csv) {
+		d3.csv("All_data_with_dates_and_filtered.csv", function (error, csv) {
 			$("#vis").empty();
 			$("#plotly-bar").empty();
 			$("#plotly-pie").empty();
